@@ -1,0 +1,2770 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="StudentHub is a student management platform for organized records, secure student accounts and easy academic information access.">
+  <meta name="theme-color" content="#f7f9ff">
+  <title>StudentHub — Empower Your Academic Journey</title>
+
+  <style>
+    /* =========================================
+       1. DESIGN SYSTEM
+    ========================================= */
+
+    :root {
+      --primary: #315cf5;
+      --primary-dark: #2144d4;
+      --primary-light: #eaf0ff;
+      --navy: #101b35;
+      --text: #18243d;
+      --muted: #68758c;
+      --background: #f7f9ff;
+      --white: #ffffff;
+      --border: #e5eaf4;
+      --green: #15985d;
+      --shadow: 0 20px 60px rgba(31, 57, 116, 0.09);
+      --radius: 22px;
+      --max-width: 1200px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 100px;
+    }
+
+    body {
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid #86a3ff;
+      outline-offset: 4px;
+    }
+
+    img, svg {
+      max-width: 100%;
+    }
+
+    .container {
+      width: min(var(--max-width), 92%);
+      margin-inline: auto;
+    }
+
+    .section {
+      padding: 100px 0;
+    }
+
+    .section-heading {
+      max-width: 720px;
+      text-align: center;
+      margin: 0 auto 50px;
+    }
+
+    .section-label {
+      display: inline-block;
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 2.3px;
+      margin-bottom: 13px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(30px, 4vw, 46px);
+      letter-spacing: -1.8px;
+      line-height: 1.18;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .section-heading p {
+      max-width: 620px;
+      margin: auto;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .blue-text {
+      color: var(--primary);
+    }
+
+    .btn {
+      min-height: 50px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 0 23px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      font-size: 14px;
+      font-weight: 750;
+      cursor: pointer;
+      transition:
+        transform .22s ease,
+        box-shadow .22s ease,
+        background .22s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3c68ff, #2449e7);
+      color: white;
+      box-shadow: 0 10px 25px rgba(49, 92, 245, .24);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 15px 32px rgba(49, 92, 245, .32);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--navy);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: #c5d3ff;
+      box-shadow: 0 8px 22px rgba(31, 57, 116, .07);
+    }
+
+    .arrow {
+      display: inline-block;
+      font-size: 18px;
+      transition: transform .2s;
+    }
+
+    .btn:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    /* =========================================
+       2. NAVIGATION BAR
+    ========================================= */
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, .94);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(229, 234, 244, .9);
+    }
+
+    .navbar {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: -1.1px;
+      white-space: nowrap;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(145deg, #4c76ff, #2449df);
+      box-shadow: 0 7px 18px rgba(49, 92, 245, .25);
+      font-size: 23px;
+      font-weight: 900;
+    }
+
+    .brand-name {
+      color: var(--navy);
+    }
+
+    .brand-name span {
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 29px;
+    }
+
+    .nav-links a {
+      position: relative;
+      color: #47556d;
+      font-size: 13px;
+      font-weight: 700;
+      transition: color .2s;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-actions .btn {
+      min-height: 44px;
+      padding-inline: 18px;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 45px;
+      height: 45px;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 12px;
+      color: var(--navy);
+      font-size: 23px;
+      cursor: pointer;
+    }
+
+    /* =========================================
+       3. HERO SECTION
+    ========================================= */
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 82% 25%, #dbe7ff 0, transparent 35%),
+        radial-gradient(ellipse at 0% 95%, #e7edff 0, transparent 42%),
+        linear-gradient(125deg, #fbfcff, #f0f5ff 64%, #f9fbff);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 500px;
+      height: 500px;
+      border: 1px solid #315cf51a;
+      border-radius: 50%;
+      left: -280px;
+      top: 10px;
+      box-shadow:
+        0 0 0 45px #315cf508,
+        0 0 0 90px #315cf506;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 250px;
+      height: 250px;
+      border: 1px solid #315cf51a;
+      border-radius: 50%;
+      right: -150px;
+      bottom: -80px;
+    }
+
+    .hero-grid {
+      min-height: 660px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 45px;
+      padding-top: 60px;
+      padding-bottom: 75px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 13px;
+      background: rgba(255, 255, 255, .85);
+      border: 1px solid #dce5ff;
+      border-radius: 99px;
+      color: #3654ac;
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 15px #315cf508;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: #24b779;
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px #24b7791c;
+    }
+
+    .hero h1 {
+      color: #101b35;
+      font-size: clamp(43px, 5.1vw, 68px);
+      line-height: 1.06;
+      letter-spacing: -3px;
+      margin-bottom: 23px;
+    }
+
+    .hero-static-line {
+      display: block;
+    }
+
+    /* Animated headline */
+
+    .headline-rotator {
+      display: grid;
+      width: 100%;
+      min-height: 2.15em;
+      overflow: hidden;
+      color: var(--primary);
+    }
+
+    .headline-word {
+      grid-area: 1 / 1;
+      align-self: start;
+      opacity: 0;
+      transform: translateY(25px);
+      animation: headlineCycle 16s infinite;
+      overflow-wrap: anywhere;
+    }
+
+    .headline-word:nth-child(2) {
+      animation-delay: 4s;
+    }
+
+    .headline-word:nth-child(3) {
+      animation-delay: 8s;
+    }
+
+    .headline-word:nth-child(4) {
+      animation-delay: 12s;
+    }
+
+    @keyframes headlineCycle {
+      0% {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+
+      5%, 20% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      25%, 100% {
+        opacity: 0;
+        transform: translateY(-25px);
+      }
+    }
+
+    .hero-description {
+      max-width: 535px;
+      color: #62718a;
+      font-size: 15px;
+      line-height: 1.9;
+      margin-bottom: 28px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+    }
+
+    .hero-buttons .btn {
+      min-height: 55px;
+      padding-inline: 24px;
+    }
+
+    .hero-trust {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 17px;
+      margin-top: 28px;
+    }
+
+    .trust-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #52617a;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .trust-check {
+      width: 19px;
+      height: 19px;
+      display: grid;
+      place-items: center;
+      color: #148b54;
+      background: #dcf8e9;
+      border-radius: 50%;
+      font-size: 11px;
+    }
+
+    /* =========================================
+       4. DASHBOARD ILLUSTRATION
+    ========================================= */
+
+    .hero-visual {
+      position: relative;
+      min-height: 470px;
+      display: grid;
+      place-items: center;
+    }
+
+    .visual-circle {
+      position: absolute;
+      width: 370px;
+      height: 370px;
+      right: 20px;
+      top: 45px;
+      border-radius: 50%;
+      background: linear-gradient(140deg, #cadcff, #e9efff);
+    }
+
+    .visual-circle::after {
+      content: "";
+      position: absolute;
+      inset: 25px;
+      border: 1px dashed #315cf544;
+      border-radius: 50%;
+    }
+
+    .dashboard-window {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 465px);
+      padding: 18px;
+      background: rgba(255, 255, 255, .97);
+      border: 1px solid white;
+      border-radius: 23px;
+      box-shadow: 0 30px 75px rgba(27, 54, 112, .18);
+      transform: rotate(-1.5deg);
+      animation: dashboardFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes dashboardFloat {
+      0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+      50% { transform: translateY(-8px) rotate(-1deg); }
+    }
+
+    .window-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 17px;
+    }
+
+    .window-heading {
+      font-size: 15px;
+      font-weight: 850;
+      color: var(--navy);
+    }
+
+    .window-subtitle {
+      color: #8590a4;
+      font-size: 10px;
+      margin-top: 3px;
+    }
+
+    .connected-pill {
+      padding: 5px 9px;
+      border-radius: 99px;
+      background: #e2f8eb;
+      color: #16844f;
+      font-size: 9px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .window-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      margin-bottom: 15px;
+    }
+
+    .window-stat {
+      min-width: 0;
+      padding: 13px 10px;
+      border-radius: 12px;
+      border: 1px solid #e9efff;
+      background: #f5f7ff;
+    }
+
+    .window-stat small {
+      display: block;
+      color: #8290a8;
+      font-size: 9px;
+      margin-bottom: 5px;
+    }
+
+    .window-stat strong {
+      color: #264bd4;
+      font-size: 17px;
+      overflow-wrap: anywhere;
+    }
+
+    .window-table {
+      padding: 12px;
+      background: white;
+      border: 1px solid #edf0f7;
+      border-radius: 13px;
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 1.45fr .85fr .6fr;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .table-head {
+      padding-bottom: 10px;
+      border-bottom: 1px solid #edf0f7;
+      color: #8994a7;
+      font-size: 9px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .table-data {
+      padding: 11px 0;
+      color: #5b6880;
+      font-size: 10px;
+    }
+
+    .table-data + .table-data {
+      border-top: 1px solid #f0f3f9;
+    }
+
+    .student-cell {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+      color: #26334d;
+      font-weight: 750;
+    }
+
+    .student-avatar {
+      width: 29px;
+      height: 29px;
+      flex: 0 0 29px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      color: #2855f5;
+      background: #e4ebff;
+      font-weight: 900;
+    }
+
+    .student-cell span:last-child {
+      overflow-wrap: anywhere;
+    }
+
+    .table-status {
+      padding: 4px 5px;
+      text-align: center;
+      border-radius: 99px;
+      color: #16844f;
+      background: #e2f8eb;
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .floating-card {
+      position: absolute;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 1px solid #ffffff;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .97);
+      box-shadow: var(--shadow);
+      animation: floatCard 5s ease-in-out infinite;
+    }
+
+    .floating-card.top {
+      top: 15px;
+      right: -8px;
+    }
+
+    .floating-card.bottom {
+      bottom: 10px;
+      left: -22px;
+      animation-delay: -2.5s;
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-7px); }
+    }
+
+    .floating-icon {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      color: #2855f5;
+      background: #e8efff;
+      font-size: 21px;
+    }
+
+    .floating-card strong {
+      display: block;
+      font-size: 11px;
+    }
+
+    .floating-card small {
+      display: block;
+      color: #7b879d;
+      font-size: 10px;
+      margin-top: 3px;
+    }
+
+    /* =========================================
+       5. TRUST STRIP
+    ========================================= */
+
+    .trust-strip {
+      border-bottom: 1px solid var(--border);
+      background: white;
+    }
+
+    .trust-strip-inner {
+      min-height: 105px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .trust-strip-title {
+      max-width: 230px;
+      color: #7b879d;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .trust-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+    }
+
+    .trust-point {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #46546c;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .trust-point span {
+      color: var(--primary);
+      font-size: 20px;
+    }
+
+    /* =========================================
+       6. FEATURES
+    ========================================= */
+
+    .features-section {
+      background: white;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature-card {
+      position: relative;
+      overflow: hidden;
+      padding: 30px 27px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: white;
+      transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+    }
+
+    .feature-card::after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      right: -55px;
+      top: -55px;
+      border-radius: 50%;
+      background: #315cf508;
+      transition: transform .3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-7px);
+      border-color: #cbd8ff;
+      box-shadow: var(--shadow);
+    }
+
+    .feature-card:hover::after {
+      transform: scale(2.5);
+    }
+
+    .feature-icon {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 17px;
+      font-size: 25px;
+      margin-bottom: 22px;
+    }
+
+    .icon-blue {
+      background: #e7eeff;
+      color: #2855f5;
+    }
+
+    .icon-green {
+      background: #e0f8eb;
+      color: #15945b;
+    }
+
+    .icon-purple {
+      background: #f0e5ff;
+      color: #8c49d8;
+    }
+
+    .icon-orange {
+      background: #fff0dc;
+      color: #dc8b25;
+    }
+
+    .icon-pink {
+      background: #ffe7f1;
+      color: #d94683;
+    }
+
+    .icon-cyan {
+      background: #dff8ff;
+      color: #1689b5;
+    }
+
+    .feature-card h3 {
+      color: var(--navy);
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.85;
+    }
+
+    .feature-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+      margin-top: 19px;
+    }
+
+    /* =========================================
+       7. HIGHLIGHT BANNER
+    ========================================= */
+
+    .highlight-section {
+      padding: 0 0 95px;
+    }
+
+    .highlight-banner {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      align-items: center;
+      gap: 40px;
+      padding: 55px;
+      border: 1px solid #e2eaff;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 100% 0%, #d9e5ff 0, transparent 40%),
+        linear-gradient(120deg, #f2f6ff, #fafcff);
+    }
+
+    .highlight-copy h2 {
+      color: var(--navy);
+      font-size: clamp(29px, 3.5vw, 42px);
+      line-height: 1.18;
+      letter-spacing: -1.5px;
+      margin: 10px 0 17px;
+    }
+
+    .highlight-copy p {
+      max-width: 520px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .highlight-copy .btn {
+      margin-top: 23px;
+    }
+
+    .highlight-list {
+      display: grid;
+      gap: 13px;
+    }
+
+    .highlight-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      padding: 17px;
+      background: rgba(255, 255, 255, .87);
+      border: 1px solid #e5ebf7;
+      border-radius: 15px;
+    }
+
+    .highlight-check {
+      width: 29px;
+      height: 29px;
+      flex: 0 0 29px;
+      display: grid;
+      place-items: center;
+      color: #148b54;
+      background: #dcf8e9;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .highlight-item strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 3px;
+    }
+
+    .highlight-item p {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    /* =========================================
+       8. WHO USES STUDENTHUB?
+    ========================================= */
+
+    .roles-section {
+      background: var(--background);
+    }
+
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .role-card {
+      position: relative;
+      overflow: hidden;
+      padding: 36px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 8px 30px #1b36700a;
+    }
+
+    .role-card::after {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      right: -75px;
+      top: -75px;
+      border-radius: 50%;
+      background: #315cf509;
+    }
+
+    .role-icon {
+      width: 62px;
+      height: 62px;
+      display: grid;
+      place-items: center;
+      border-radius: 19px;
+      background: #e8efff;
+      color: var(--primary);
+      font-size: 28px;
+      margin-bottom: 23px;
+    }
+
+    .role-card h3 {
+      color: var(--navy);
+      font-size: 23px;
+      margin-bottom: 11px;
+    }
+
+    .role-card > p {
+      max-width: 470px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    .role-list {
+      display: grid;
+      gap: 10px;
+      margin: 22px 0 27px;
+      list-style: none;
+    }
+
+    .role-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: #52617a;
+      font-size: 12px;
+    }
+
+    .role-list li span {
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .role-card .btn {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* =========================================
+       9. WORKFLOW
+    ========================================= */
+
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .workflow-card {
+      position: relative;
+      padding: 25px 21px;
+      border: 1px solid var(--border);
+      border-radius: 19px;
+      background: white;
+    }
+
+    .workflow-number {
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: linear-gradient(145deg, #4774ff, #2348df);
+      border-radius: 14px;
+      box-shadow: 0 8px 18px #315cf527;
+      font-weight: 900;
+      margin-bottom: 20px;
+    }
+
+    .workflow-card h3 {
+      font-size: 15px;
+      color: var(--navy);
+      margin-bottom: 9px;
+    }
+
+    .workflow-card p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.85;
+    }
+
+    /* =========================================
+       10. SECURITY SECTION
+    ========================================= */
+
+    .security-section {
+      background: #101d35;
+      color: white;
+    }
+
+    .security-grid {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      align-items: center;
+      gap: 65px;
+    }
+
+    .security-copy .section-label {
+      color: #90aaff;
+    }
+
+    .security-copy h2 {
+      font-size: clamp(31px, 4vw, 47px);
+      line-height: 1.16;
+      letter-spacing: -1.6px;
+      margin-bottom: 19px;
+    }
+
+    .security-copy p {
+      color: #bdc8dd;
+      font-size: 14px;
+      line-height: 1.95;
+    }
+
+    .security-copy .btn {
+      margin-top: 25px;
+    }
+
+    .security-panel {
+      padding: 28px;
+      border: 1px solid #ffffff1b;
+      border-radius: 23px;
+      background: #ffffff08;
+    }
+
+    .security-panel-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid #ffffff16;
+      margin-bottom: 18px;
+    }
+
+    .security-shield {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      background: #315cf52e;
+      color: #a5bbff;
+      border-radius: 16px;
+      font-size: 25px;
+    }
+
+    .security-panel-head strong {
+      display: block;
+      font-size: 15px;
+    }
+
+    .security-panel-head small {
+      display: block;
+      color: #aebbd2;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .security-point {
+      display: flex;
+      gap: 13px;
+      align-items: flex-start;
+      padding: 13px 0;
+    }
+
+    .security-point-icon {
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      color: #9db4ff;
+      background: #315cf527;
+      font-size: 14px;
+    }
+
+    .security-point strong {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 3px;
+    }
+
+    .security-point p {
+      color: #aebbd2;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    /* =========================================
+       11. FAQ
+    ========================================= */
+
+    .faq-section {
+      background: white;
+    }
+
+    .faq-list {
+      max-width: 820px;
+      margin: auto;
+      display: grid;
+      gap: 13px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: white;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 20px 22px;
+      border: 0;
+      background: white;
+      color: var(--navy);
+      text-align: left;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .faq-symbol {
+      width: 29px;
+      height: 29px;
+      flex: 0 0 29px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 18px;
+      transition: transform .2s;
+    }
+
+    .faq-item.active .faq-symbol {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 22px 21px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+      animation: answerAppear .22s ease;
+    }
+
+    @keyframes answerAppear {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =========================================
+       12. CALL TO ACTION
+    ========================================= */
+
+    .cta-section {
+      padding: 0 0 100px;
+    }
+
+    .cta-banner {
+      position: relative;
+      overflow: hidden;
+      padding: 65px 30px;
+      border-radius: 28px;
+      text-align: center;
+      color: white;
+      background: linear-gradient(120deg, #1e42c2, #3869ff);
+      box-shadow: 0 24px 55px #315cf529;
+    }
+
+    .cta-banner::before,
+    .cta-banner::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border: 1px solid #ffffff24;
+      border-radius: 50%;
+    }
+
+    .cta-banner::before {
+      top: -150px;
+      left: -80px;
+      box-shadow: 0 0 0 35px #ffffff08;
+    }
+
+    .cta-banner::after {
+      right: -80px;
+      bottom: -160px;
+      box-shadow: 0 0 0 35px #ffffff08;
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-content .section-label {
+      color: #dbe5ff;
+    }
+
+    .cta-content h2 {
+      font-size: clamp(31px, 4vw, 46px);
+      line-height: 1.2;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+    }
+
+    .cta-content p {
+      max-width: 610px;
+      margin: 0 auto 27px;
+      color: #e0e8ff;
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .cta-content .btn {
+      background: white;
+      color: #2448d3;
+    }
+
+    /* =========================================
+       13. FOOTER
+    ========================================= */
+
+    .footer {
+      background: #0e1930;
+      color: white;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr .8fr .9fr 1fr;
+      gap: 40px;
+      padding: 58px 0 42px;
+    }
+
+    .footer-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 23px;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .footer-brand .brand-icon {
+      width: 39px;
+      height: 39px;
+      border-radius: 12px;
+      font-size: 19px;
+    }
+
+    .footer-brand span {
+      color: #85a2ff;
+    }
+
+    .footer-about p {
+      max-width: 330px;
+      color: #aebbd2;
+      font-size: 12px;
+      line-height: 1.95;
+    }
+
+    .footer-column h3 {
+      font-size: 13px;
+      margin-bottom: 19px;
+    }
+
+    .footer-column a {
+      display: block;
+      width: fit-content;
+      color: #aebbd2;
+      font-size: 12px;
+      margin-bottom: 12px;
+      transition: color .2s;
+    }
+
+    .footer-column a:hover {
+      color: white;
+    }
+
+    .footer-contact {
+      color: #aebbd2;
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    .footer-bottom {
+      min-height: 70px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      border-top: 1px solid #ffffff17;
+      color: #aebbd2;
+      font-size: 11px;
+    }
+
+    .footer-bottom-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-bottom a {
+      color: #dbe5ff;
+    }
+
+    .back-to-top {
+      position: fixed;
+      z-index: 50;
+      right: 23px;
+      bottom: 23px;
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 14px;
+      color: white;
+      background: var(--primary);
+      box-shadow: 0 8px 24px #315cf544;
+      font-size: 21px;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: opacity .2s, visibility .2s, transform .2s;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    /* =========================================
+       14. RESPONSIVE DESIGN
+    ========================================= */
+
+    @media (max-width: 1050px) {
+      .nav-links {
+        gap: 18px;
+      }
+
+      .hero-grid {
+        gap: 25px;
+      }
+
+      .hero h1 {
+        font-size: clamp(43px, 5.2vw, 59px);
+      }
+
+      .visual-circle {
+        width: 310px;
+        height: 310px;
+      }
+
+      .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .workflow-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 780px) {
+      .navbar {
+        min-height: 70px;
+      }
+
+      .menu-toggle {
+        display: grid;
+        place-items: center;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: none;
+        align-items: stretch;
+        gap: 0;
+        padding: 18px 5% 30px;
+        background: white;
+        overflow-y: auto;
+      }
+
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .nav-links a {
+        padding: 15px 3px;
+        border-bottom: 1px solid var(--border);
+        font-size: 15px;
+      }
+
+      .nav-links a::after {
+        display: none;
+      }
+
+      .nav-actions .btn {
+        min-height: 41px;
+        padding-inline: 13px;
+        font-size: 12px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        padding-top: 55px;
+        padding-bottom: 45px;
+      }
+
+      .hero h1 {
+        font-size: clamp(43px, 8vw, 61px);
+        letter-spacing: -2px;
+      }
+
+      .hero-description {
+        font-size: 14px;
+      }
+
+      .hero-visual {
+        min-height: 435px;
+        margin: 0 12px;
+      }
+
+      .visual-circle {
+        right: 10%;
+      }
+
+      .floating-card.top {
+        right: -5px;
+      }
+
+      .floating-card.bottom {
+        left: -5px;
+      }
+
+      .trust-strip-inner {
+        padding: 24px 0;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .trust-strip-title {
+        max-width: none;
+      }
+
+      .trust-points {
+        gap: 18px;
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+
+      .highlight-section {
+        padding-bottom: 72px;
+      }
+
+      .highlight-banner {
+        grid-template-columns: 1fr;
+        padding: 35px;
+        gap: 28px;
+      }
+
+      .security-grid {
+        grid-template-columns: 1fr;
+        gap: 35px;
+      }
+
+      .roles-grid {
+        gap: 15px;
+      }
+
+      .role-card {
+        padding: 25px;
+      }
+
+      .cta-section {
+        padding-bottom: 72px;
+      }
+
+      .footer-grid {
+        gap: 35px 25px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .container {
+        width: 91%;
+      }
+
+      .brand {
+        font-size: 21px;
+      }
+
+      .brand-icon {
+        width: 39px;
+        height: 39px;
+      }
+
+      .nav-actions .btn {
+        padding-inline: 11px;
+      }
+
+      .hero-grid {
+        padding-top: 42px;
+      }
+
+      .hero h1 {
+        font-size: 43px;
+      }
+
+      .hero-badge {
+        font-size: 10px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .hero-buttons .btn {
+        width: 100%;
+      }
+
+      .hero-trust {
+        gap: 10px;
+      }
+
+      .trust-item {
+        font-size: 10px;
+      }
+
+      .hero-visual {
+        min-height: 360px;
+        margin: 0;
+      }
+
+      .dashboard-window {
+        padding: 12px;
+      }
+
+      .visual-circle {
+        width: 240px;
+        height: 240px;
+        top: 50px;
+      }
+
+      .window-stat {
+        padding: 10px 7px;
+      }
+
+      .window-stat strong {
+        font-size: 14px;
+      }
+
+      .window-table {
+        padding: 9px;
+      }
+
+      .table-row {
+        grid-template-columns: 1.35fr .65fr .58fr;
+        gap: 5px;
+      }
+
+      .student-cell {
+        font-size: 9px;
+        gap: 5px;
+      }
+
+      .student-avatar {
+        width: 23px;
+        height: 23px;
+        flex-basis: 23px;
+      }
+
+      .table-data {
+        font-size: 9px;
+      }
+
+      .table-status {
+        font-size: 8px;
+        padding-inline: 3px;
+      }
+
+      .floating-card {
+        gap: 8px;
+        padding: 9px;
+      }
+
+      .floating-card.top {
+        top: 0;
+      }
+
+      .floating-card.bottom {
+        bottom: 0;
+      }
+
+      .floating-icon {
+        width: 32px;
+        height: 32px;
+        flex-basis: 32px;
+        font-size: 17px;
+      }
+
+      .floating-card strong {
+        font-size: 10px;
+      }
+
+      .floating-card small {
+        font-size: 9px;
+      }
+
+      .trust-points {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      .section-heading {
+        margin-bottom: 32px;
+      }
+
+      .section-heading h2 {
+        font-size: 32px;
+        letter-spacing: -1px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card {
+        padding: 25px;
+      }
+
+      .highlight-banner {
+        padding: 27px 21px;
+      }
+
+      .highlight-copy h2 {
+        font-size: 32px;
+      }
+
+      .roles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .role-card {
+        padding: 27px 23px;
+      }
+
+      .workflow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .security-panel {
+        padding: 19px;
+      }
+
+      .faq-question {
+        padding: 17px;
+        font-size: 12px;
+      }
+
+      .faq-answer {
+        padding: 0 17px 18px;
+      }
+
+      .cta-banner {
+        padding: 48px 20px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px 18px;
+      }
+
+      .footer-about {
+        grid-column: 1 / -1;
+      }
+
+      .footer-bottom {
+        padding: 20px 0;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+
+      .headline-word {
+        display: none;
+      }
+
+      .headline-word:first-child {
+        display: block;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =======================================
+       HEADER
+  ======================================== -->
+
+  <header class="header">
+    <nav class="navbar container" aria-label="Main navigation">
+
+      <a href="home.html" class="brand" aria-label="StudentHub home">
+        <span class="brand-icon">S</span>
+        <span class="brand-name">Student<span>Hub</span></span>
+      </a>
+
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="navLinks">
+        ☰
+      </button>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#about">About</a>
+        <a href="#roles">Who It's For</a>
+        <a href="#workflow">How It Works</a>
+        <a href="#faq">FAQ</a>
+      </div>
+
+      <div class="nav-actions">
+        <a class="btn btn-secondary" href="index.html">Sign In</a>
+        <a class="btn btn-primary" href="index.html">
+          Get Started <span class="arrow">→</span>
+        </a>
+      </div>
+
+    </nav>
+  </header>
+
+
+  <main>
+
+    <!-- =====================================
+         HERO
+    ====================================== -->
+
+    <section class="hero" id="home">
+      <div class="hero-grid container">
+
+        <div class="hero-content">
+
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            A smarter student management experience
+          </div>
+
+          <h1>
+            <span class="hero-static-line">Empower Your</span>
+
+            <span class="headline-rotator"
+                  aria-label="Academic Journey">
+              <span class="headline-word">Academic Journey</span>
+              <span class="headline-word">Student Management</span>
+              <span class="headline-word">Digital Campus</span>
+              <span class="headline-word">Future with StudentHub</span>
+            </span>
+          </h1>
+
+          <p class="hero-description">
+            Meet StudentHub — a modern platform designed to make student
+            record management and account access easier. Administrators
+            manage student information in one place, while students access
+            their own dashboard and academic details.
+          </p>
+
+          <div class="hero-buttons">
+            <a class="btn btn-primary" href="index.html">
+              Access Portal <span class="arrow">→</span>
+            </a>
+
+            <a class="btn btn-secondary" href="#features">
+              Explore Features
+            </a>
+          </div>
+
+          <div class="hero-trust">
+            <span class="trust-item">
+              <span class="trust-check">✓</span>
+              Role-based access
+            </span>
+
+            <span class="trust-item">
+              <span class="trust-check">✓</span>
+              Organized records
+            </span>
+
+            <span class="trust-item">
+              <span class="trust-check">✓</span>
+              Account activation
+            </span>
+          </div>
+
+        </div>
+
+
+        <!-- Dashboard preview illustration -->
+
+        <div class="hero-visual"
+             aria-label="Illustration of a student management dashboard">
+
+          <div class="visual-circle"></div>
+
+          <div class="floating-card top">
+            <div class="floating-icon">🎓</div>
+            <div>
+              <strong>Student Portal</strong>
+              <small>Your information, organized</small>
+            </div>
+          </div>
+
+          <div class="dashboard-window">
+
+            <div class="window-top">
+              <div>
+                <div class="window-heading">Student Overview</div>
+                <div class="window-subtitle">
+                  A clearer view of student records
+                </div>
+              </div>
+
+              <span class="connected-pill">● Connected</span>
+            </div>
+
+            <div class="window-stats">
+
+              <div class="window-stat">
+                <small>Management</small>
+                <strong>Simple</strong>
+              </div>
+
+              <div class="window-stat">
+                <small>Access</small>
+                <strong>Secure</strong>
+              </div>
+
+              <div class="window-stat">
+                <small>Records</small>
+                <strong>Organized</strong>
+              </div>
+
+            </div>
+
+            <div class="window-table">
+
+              <div class="table-row table-head">
+                <span>Information</span>
+                <span>Category</span>
+                <span>Status</span>
+              </div>
+
+              <div class="table-row table-data">
+                <span class="student-cell">
+                  <span class="student-avatar">S</span>
+                  <span>Student profile</span>
+                </span>
+                <span>Academic</span>
+                <span class="table-status">Ready</span>
+              </div>
+
+              <div class="table-row table-data">
+                <span class="student-cell">
+                  <span class="student-avatar"
+                        style="background:#eee5ff;color:#864bd0">A</span>
+                  <span>Account access</span>
+                </span>
+                <span>Portal</span>
+                <span class="table-status">Secure</span>
+              </div>
+
+              <div class="table-row table-data">
+                <span class="student-cell">
+                  <span class="student-avatar"
+                        style="background:#dff8e9;color:#168650">✓</span>
+                  <span>Personal details</span>
+                </span>
+                <span>Profile</span>
+                <span class="table-status">Ready</span>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="floating-card bottom">
+            <div class="floating-icon"
+                 style="background:#e0f8eb;color:#15945b">✓</div>
+            <div>
+              <strong>One organized platform</strong>
+              <small>Built around your workflow</small>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================
+         TRUST STRIP
+    ====================================== -->
+
+    <section class="trust-strip">
+      <div class="container trust-strip-inner">
+
+        <p class="trust-strip-title">
+          Designed to simplify everyday student management
+        </p>
+
+        <div class="trust-points">
+          <div class="trust-point">
+            <span>▦</span>
+            Organized student records
+          </div>
+
+          <div class="trust-point">
+            <span>♙</span>
+            Separate user dashboards
+          </div>
+
+          <div class="trust-point">
+            <span>♧</span>
+            Account activation workflow
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================
+         FEATURES
+    ====================================== -->
+
+    <section class="section features-section" id="features">
+      <div class="container">
+
+        <div class="section-heading">
+          <span class="section-label">What StudentHub offers</span>
+
+          <h2>
+            Everything important.
+            <span class="blue-text">One platform.</span>
+          </h2>
+
+          <p>
+            A clean and practical experience for maintaining student
+            information, managing accounts and navigating academic records.
+          </p>
+        </div>
+
+
+        <div class="feature-grid">
+
+          <article class="feature-card">
+            <div class="feature-icon icon-blue">🎓</div>
+            <h3>Student Record Management</h3>
+            <p>
+              Keep student names, contact information, departments,
+              courses and other academic details organized.
+            </p>
+            <a href="index.html" class="feature-link">
+              Access the portal <span class="arrow">→</span>
+            </a>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon icon-green">🛡</div>
+            <h3>Role-Based Access</h3>
+            <p>
+              Give administrators and students different experiences
+              according to their assigned roles and permissions.
+            </p>
+            <a href="#roles" class="feature-link">
+              Explore user roles <span class="arrow">→</span>
+            </a>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon icon-purple">📊</div>
+            <h3>Administration Dashboard</h3>
+            <p>
+              Help administrators search, review, add, update and manage
+              student records through a dedicated interface.
+            </p>
+            <a href="index.html" class="feature-link">
+              Admin sign in <span class="arrow">→</span>
+            </a>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon icon-orange">✉</div>
+            <h3>Email Account Activation</h3>
+            <p>
+              Support an invitation workflow in which a student receives
+              a secure link to set up their account password.
+            </p>
+            <a href="#workflow" class="feature-link">
+              View the workflow <span class="arrow">→</span>
+            </a>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon icon-pink">🔎</div>
+            <h3>Search and Organization</h3>
+            <p>
+              Find student records efficiently using the management
+              tools available in the administration dashboard.
+            </p>
+            <a href="index.html" class="feature-link">
+              Open StudentHub <span class="arrow">→</span>
+            </a>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon icon-cyan">🔑</div>
+            <h3>Password Management</h3>
+            <p>
+              Use the available password setup and recovery pages
+              to support account activation and password recovery.
+            </p>
+            <a href="pages/forgot-password.html" class="feature-link">
+              Password recovery <span class="arrow">→</span>
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================
+         HIGHLIGHT
+    ====================================== -->
+
+    <section class="highlight-section" id="about">
+      <div class="container">
+
+        <div class="highlight-banner">
+
+          <div class="highlight-copy">
+            <span class="section-label">About StudentHub</span>
+
+            <h2>
+              Less confusion.
+              <span class="blue-text">More organization.</span>
+            </h2>
+
+            <p>
+              StudentHub brings student records and account access into
+              a single web-based experience. Administrators manage the
+              records they are responsible for, while students use their
+              own accounts to view their information.
+            </p>
+
+            <a href="index.html" class="btn btn-primary">
+              Explore the Portal <span class="arrow">→</span>
+            </a>
+          </div>
+
+          <div class="highlight-list">
+
+            <div class="highlight-item">
+              <span class="highlight-check">✓</span>
+              <div>
+                <strong>Centralized student information</strong>
+                <p>Keep important academic and personal records organized.</p>
+              </div>
+            </div>
+
+            <div class="highlight-item">
+              <span class="highlight-check">✓</span>
+              <div>
+                <strong>Separate administrator and student access</strong>
+                <p>Each user follows the workflow for their account role.</p>
+              </div>
+            </div>
+
+            <div class="highlight-item">
+              <span class="highlight-check">✓</span>
+              <div>
+                <strong>A clear account activation journey</strong>
+                <p>Invite students to set their password before signing in.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================
+         USER ROLES
+    ====================================== -->
+
+    <section class="section roles-section" id="roles">
+      <div class="container">
+
+        <div class="section-heading">
+          <span class="section-label">Built for two user experiences</span>
+
+          <h2>
+            The right dashboard
+            <span class="blue-text">for your role.</span>
+          </h2>
+
+          <p>
+            StudentHub separates record administration from personal
+            student access.
+          </p>
+        </div>
+
+
+        <div class="roles-grid">
+
+          <article class="role-card">
+            <div class="role-icon">♙</div>
+
+            <h3>For Administrators</h3>
+
+            <p>
+              Manage student records and maintain organized information
+              through the administration dashboard.
+            </p>
+
+            <ul class="role-list">
+              <li><span>✓</span> Add and maintain student records</li>
+              <li><span>✓</span> Search and filter student information</li>
+              <li><span>✓</span> Review records and available reports</li>
+              <li><span>✓</span> Manage the student administration workflow</li>
+            </ul>
+
+            <a href="index.html" class="btn btn-primary">
+              Admin Sign In <span class="arrow">→</span>
+            </a>
+          </article>
+
+
+          <article class="role-card">
+            <div class="role-icon"
+                 style="background:#e0f8eb;color:#15945b">🎓</div>
+
+            <h3>For Students</h3>
+
+            <p>
+              Access your personal student dashboard using the account
+              provided through the StudentHub workflow.
+            </p>
+
+            <ul class="role-list">
+              <li><span>✓</span> Activate your account using the setup link</li>
+              <li><span>✓</span> Sign in using your own credentials</li>
+              <li><span>✓</span> View your own student profile</li>
+              <li><span>✓</span> Use available account features</li>
+            </ul>
+
+            <a href="index.html" class="btn btn-secondary">
+              Student Sign In <span class="arrow">→</span>
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================
+         HOW IT WORKS
+    ====================================== -->
+
+    <section class="section" id="workflow">
+      <div class="container">
+
+        <div class="section-heading">
+          <span class="section-label">A simple workflow</span>
+
+          <h2>
+            From student record
+            <span class="blue-text">to student portal.</span>
+          </h2>
+
+          <p>
+            Here is the intended process for an administrator-created
+            student account.
+          </p>
+        </div>
+
+
+        <div class="workflow-grid">
+
+          <article class="workflow-card">
+            <div class="workflow-number">01</div>
+            <h3>Admin Adds a Student</h3>
+            <p>
+              The administrator enters the student's personal and
+              academic details into the management dashboard.
+            </p>
+          </article>
+
+          <article class="workflow-card">
+            <div class="workflow-number">02</div>
+            <h3>Account Is Prepared</h3>
+            <p>
+              The student record is associated with a user account
+              according to the application's workflow.
+            </p>
+          </article>
+
+          <article class="workflow-card">
+            <div class="workflow-number">03</div>
+            <h3>Password Setup Email</h3>
+            <p>
+              The student receives the account activation email
+              containing the password setup link.
+            </p>
+          </article>
+
+          <article class="workflow-card">
+            <div class="workflow-number">04</div>
+            <h3>Student Signs In</h3>
+            <p>
+              After setting a password, the student signs in and
+              accesses their own dashboard.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================
+         SECURITY
+    ====================================== -->
+
+    <section class="section security-section">
+      <div class="container security-grid">
+
+        <div class="security-copy">
+          <span class="section-label">Access and account management</span>
+
+          <h2>
+            Your account.
+            Your role.
+            <span style="color:#8eabff">Your dashboard.</span>
+          </h2>
+
+          <p>
+            StudentHub is designed around role-based access and a
+            dedicated experience for each user. Administrators manage
+            student information, while students access their own
+            account and profile through the student dashboard.
+          </p>
+
+          <a href="index.html" class="btn btn-primary">
+            Sign In to StudentHub <span class="arrow">→</span>
+          </a>
+        </div>
+
+
+        <div class="security-panel">
+
+          <div class="security-panel-head">
+            <div class="security-shield">♧</div>
+            <div>
+              <strong>Account access overview</strong>
+              <small>Different roles, distinct experiences</small>
+            </div>
+          </div>
+
+          <div class="security-point">
+            <div class="security-point-icon">♙</div>
+            <div>
+              <strong>Administrator access</strong>
+              <p>
+                Use the administration dashboard to manage student
+                records according to assigned permissions.
+              </p>
+            </div>
+          </div>
+
+          <div class="security-point">
+            <div class="security-point-icon">🎓</div>
+            <div>
+              <strong>Student access</strong>
+              <p>
+                Sign in with your own account to access your student
+                dashboard and profile.
+              </p>
+            </div>
+          </div>
+
+          <div class="security-point">
+            <div class="security-point-icon">✉</div>
+            <div>
+              <strong>Account activation</strong>
+              <p>
+                Set up an account password using the activation link
+                provided in the invitation email.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================
+         FAQ
+    ====================================== -->
+
+    <section class="section faq-section" id="faq">
+      <div class="container">
+
+        <div class="section-heading">
+          <span class="section-label">Frequently asked questions</span>
+
+          <h2>
+            Got questions?
+            <span class="blue-text">We've got answers.</span>
+          </h2>
+
+          <p>
+            Learn how the main StudentHub workflows are intended to work.
+          </p>
+        </div>
+
+
+        <div class="faq-list">
+
+          <article class="faq-item">
+            <button class="faq-question"
+                    type="button"
+                    aria-expanded="false">
+              What is StudentHub?
+              <span class="faq-symbol">+</span>
+            </button>
+            <div class="faq-answer">
+              StudentHub is a student management web application for
+              maintaining student records and providing separate
+              administrator and student dashboards.
+            </div>
+          </article>
+
+
+          <article class="faq-item">
+            <button class="faq-question"
+                    type="button"
+                    aria-expanded="false">
+              How does a student get an account?
+              <span class="faq-symbol">+</span>
+            </button>
+            <div class="faq-answer">
+              In the current intended workflow, the administrator adds
+              a student and the student receives an activation email
+              with a link to set up their password.
+            </div>
+          </article>
+
+
+          <article class="faq-item">
+            <button class="faq-question"
+                    type="button"
+                    aria-expanded="false">
+              Can students access other students' profiles?
+              <span class="faq-symbol">+</span>
+            </button>
+            <div class="faq-answer">
+              Students should only be able to access their own permitted
+              information. Actual access depends on the backend security
+              and authorization rules.
+            </div>
+          </article>
+
+
+          <article class="faq-item">
+            <button class="faq-question"
+                    type="button"
+                    aria-expanded="false">
+              What if I forget my password?
+              <span class="faq-symbol">+</span>
+            </button>
+            <div class="faq-answer">
+              Use the Forgot Password page to start the password recovery
+              process. You may need access to the email address associated
+              with your account.
+              <br><br>
+              <a href="pages/forgot-password.html"
+                 class="feature-link">Open Forgot Password →</a>
+            </div>
+          </article>
+
+
+          <article class="faq-item">
+            <button class="faq-question"
+                    type="button"
+                    aria-expanded="false">
+              Can a student register directly?
+              <span class="faq-symbol">+</span>
+            </button>
+            <div class="faq-answer">
+              Public registration is not part of the primary workflow
+              we are using right now. The Register page is being kept
+              for possible future use.
+            </div>
+          </article>
+
+
+          <article class="faq-item">
+            <button class="faq-question"
+                    type="button"
+                    aria-expanded="false">
+              How do I access StudentHub?
+              <span class="faq-symbol">+</span>
+            </button>
+            <div class="faq-answer">
+              Select Sign In or Get Started. You will be taken to the
+              existing login page, where you can sign in with your
+              account credentials.
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================
+         CALL TO ACTION
+    ====================================== -->
+
+    <section class="cta-section">
+      <div class="container">
+
+        <div class="cta-banner">
+          <div class="cta-content">
+
+            <span class="section-label">Welcome to StudentHub</span>
+
+            <h2>Your academic information starts here.</h2>
+
+            <p>
+              Access the portal, manage student records or view your
+              own student profile through the appropriate dashboard.
+            </p>
+
+            <a href="index.html" class="btn">
+              Enter StudentHub <span class="arrow">→</span>
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- =======================================
+       FOOTER
+  ======================================== -->
+
+  <footer class="footer" id="contact">
+
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div class="footer-about">
+
+          <a href="home.html" class="footer-brand">
+            <span class="brand-icon">S</span>
+            <span>Student<span>Hub</span></span>
+          </a>
+
+          <p>
+            A modern student management experience for organized
+            records, account activation and role-based dashboard access.
+            Designed to make the everyday academic workflow clearer.
+          </p>
+
+        </div>
+
+
+        <div class="footer-column">
+          <h3>Explore</h3>
+          <a href="#home">Home</a>
+          <a href="#features">Features</a>
+          <a href="#about">About StudentHub</a>
+          <a href="#workflow">How It Works</a>
+          <a href="#faq">Frequently Asked Questions</a>
+        </div>
+
+
+        <div class="footer-column">
+          <h3>Your Account</h3>
+          <a href="index.html">Sign In</a>
+          <a href="pages/forgot-password.html">Forgot Password</a>
+          <a href="pages/set-password.html">Set Password</a>
+        </div>
+
+
+        <div class="footer-column">
+          <h3>Platform</h3>
+          <p class="footer-contact">
+            Student record management<br>
+            Administrator dashboard<br>
+            Student dashboard<br>
+            Account activation workflow
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="footer-bottom">
+
+        <p>
+          © <span id="currentYear"></span> StudentHub.
+          All rights reserved.
+        </p>
+
+        <div class="footer-bottom-links">
+          <a href="#home">Back to Home ↑</a>
+          <a href="index.html">Sign In</a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <button class="back-to-top"
+          id="backToTop"
+          type="button"
+          aria-label="Back to top">
+    ↑
+  </button>
+
+
+  <!-- =======================================
+       JAVASCRIPT INTERACTIONS
+  ======================================== -->
+
+  <script>
+    "use strict";
+
+    // Mobile navigation
+
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+
+    function closeMenu() {
+      navLinks.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      menuToggle.setAttribute("aria-label", "Open navigation menu");
+      menuToggle.textContent = "☰";
+      document.body.classList.remove("menu-open");
+    }
+
+    menuToggle.addEventListener("click", function () {
+      const isOpen = navLinks.classList.toggle("open");
+
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute(
+        "aria-label",
+        isOpen ? "Close navigation menu" : "Open navigation menu"
+      );
+
+      menuToggle.textContent = isOpen ? "✕" : "☰";
+      document.body.classList.toggle("menu-open", isOpen);
+    });
+
+    navLinks.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", closeMenu);
+    });
+
+    // Close mobile menu if the window becomes wide again
+
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 780) {
+        closeMenu();
+      }
+    });
+
+
+    // FAQ accordion
+
+    const faqQuestions = document.querySelectorAll(".faq-question");
+
+    faqQuestions.forEach(function (question) {
+      question.addEventListener("click", function () {
+        const currentItem = question.closest(".faq-item");
+        const wasOpen = currentItem.classList.contains("active");
+
+        document.querySelectorAll(".faq-item").forEach(function (item) {
+          item.classList.remove("active");
+
+          const button = item.querySelector(".faq-question");
+          button.setAttribute("aria-expanded", "false");
+        });
+
+        if (!wasOpen) {
+          currentItem.classList.add("active");
+          question.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+
+
+    // Automatically update the footer year
+
+    document.getElementById("currentYear").textContent =
+      new Date().getFullYear();
+
+
+    // Back-to-top button
+
+    const backToTop = document.getElementById("backToTop");
+
+    window.addEventListener("scroll", function () {
+      backToTop.classList.toggle("visible", window.scrollY > 450);
+    }, { passive: true });
+
+    backToTop.addEventListener("click", function () {
+      window.scrollTo({
+        top: 0,
+        behavior: window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches ? "auto" : "smooth"
+      });
+    });
+  </script>
+
+</body>
+</html>

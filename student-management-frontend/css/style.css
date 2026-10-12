@@ -1,0 +1,258 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #202124;
+    background: #f4f6fa;
+}
+
+body {
+    min-height: 100vh;
+}
+
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    padding: 40px;
+    background: #ffffff;
+    border: 1px solid #e7e9ef;
+    border-radius: 18px;
+    box-shadow: 0 12px 40px rgba(25, 35, 55, 0.07);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 36px;
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    background: #243b73;
+    color: #ffffff;
+    border-radius: 12px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.brand h1 {
+    font-size: 24px;
+    letter-spacing: -0.7px;
+}
+
+.brand h1 span {
+    color: #365cc9;
+}
+
+.subtitle {
+    color: #365cc9;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.auth-card h2 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.description {
+    color: #737987;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #d9dde6;
+    border-radius: 9px;
+    outline: none;
+    font: inherit;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #365cc9;
+    box-shadow: 0 0 0 3px rgba(54, 92, 201, 0.12);
+}
+
+.primary-button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 9px;
+    background: #243b73;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.primary-button:hover {
+    background: #192c59;
+}
+
+.primary-button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.message {
+    margin: 0 0 14px;
+    font-size: 14px;
+    color: #b42318;
+}
+
+.auth-footer {
+    margin-top: 26px;
+    text-align: center;
+    color: #737987;
+    font-size: 14px;
+}
+
+.auth-footer a {
+    color: #365cc9;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 16px;
+    }
+
+    .auth-card {
+        padding: 28px 22px;
+    }
+}
+
+
+
+/* ===== StudentHub Login — Visual Improvements ===== */
+
+/* Soft blue background */
+body {
+    background: linear-gradient(
+        135deg,
+        #eef3ff 0%,
+        #f5f7fc 50%,
+        #e8efff 100%
+    );
+}
+
+/* Login card */
+.auth-card {
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 24px;
+    box-shadow:
+        0 20px 60px rgba(35, 55, 110, 0.10),
+        0 4px 15px rgba(35, 55, 110, 0.04);
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.auth-card:hover {
+    box-shadow:
+        0 25px 70px rgba(35, 55, 110, 0.14),
+        0 5px 18px rgba(35, 55, 110, 0.06);
+}
+
+/* StudentHub logo */
+.brand-icon {
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.18);
+}
+
+/* Login heading */
+.auth-card h2 {
+    letter-spacing: -0.6px;
+}
+
+/* Input focus animation */
+.form-group input {
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.form-group input:focus {
+    border-color: #4055c8;
+    box-shadow: 0 0 0 4px rgba(64, 85, 200, 0.10);
+    outline: none;
+}
+
+/* Sign In button */
+.primary-button {
+    background: linear-gradient(135deg, #293f83, #4055c8);
+    border: none;
+    box-shadow: 0 5px 14px rgba(41, 63, 131, 0.16);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+}
+
+.primary-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 9px 20px rgba(41, 63, 131, 0.24);
+    filter: brightness(1.06);
+}
+
+.primary-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+/* Links */
+.auth-card a {
+    transition: color 0.2s ease;
+}
+
+.auth-card a:hover {
+    color: #1d4ed8 !important;
+    text-decoration: underline !important;
+}
+
+/* Respect reduced-motion settings */
+@media (prefers-reduced-motion: reduce) {
+    .auth-card,
+    .form-group input,
+    .primary-button,
+    .auth-card a {
+        transition: none;
+    }
+}

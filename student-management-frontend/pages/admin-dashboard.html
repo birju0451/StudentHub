@@ -1,0 +1,1690 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | StudentHub</title>
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        :root {
+            --primary: #4055c8;
+            --primary-dark: #293a9b;
+            --sidebar: #182347;
+            --background: #f5f7fc;
+            --surface: #ffffff;
+            --text: #202b45;
+            --muted: #7b849a;
+            --border: #e8ebf3;
+            --success: #17864a;
+            --danger: #c63d48;
+            --radius: 16px;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        button { cursor: pointer; }
+
+        button:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .app {
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            inset: 0 auto 0 0;
+            width: 250px;
+            background: var(--sidebar);
+            color: white;
+            padding: 26px 18px;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 8px 30px;
+        }
+
+        .brand-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            background: #5268e4;
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 23px;
+            letter-spacing: -.6px;
+        }
+
+        .brand h1 span { color: #aebaff; }
+
+        .nav-label {
+            padding: 10px 12px;
+            color: #99a5c6;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 13px 14px;
+            margin-bottom: 7px;
+            color: #d3daf0;
+            background: transparent;
+            border: 0;
+            border-radius: 11px;
+            text-align: left;
+            transition: background .2s, color .2s;
+        }
+
+        .nav-button:hover,
+        .nav-button.active {
+            background: #34457d;
+            color: #ffffff;
+        }
+
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            border-top: 1px solid #344064;
+            padding-top: 18px;
+        }
+
+        .admin-mini {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: #dfe5ff;
+            color: var(--primary-dark);
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .admin-mini strong,
+        .admin-mini small {
+            display: block;
+            overflow-wrap: anywhere;
+        }
+
+        .admin-mini strong { font-size: 13px; }
+        .admin-mini small { color: #aeb9d6; margin-top: 4px; }
+
+        .sidebar .logout {
+            width: 100%;
+            border: 1px solid #465174;
+            background: transparent;
+            color: white;
+            border-radius: 10px;
+            padding: 11px;
+        }
+
+        .sidebar .logout:hover { background: #344064; }
+
+        .main {
+            margin-left: 250px;
+            padding: 30px 34px 45px;
+            max-width: 1800px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .eyebrow {
+            margin: 0 0 6px;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+        .topbar h2 {
+            margin: 0;
+            font-size: clamp(24px, 3vw, 31px);
+            letter-spacing: -.8px;
+        }
+
+        .topbar p {
+            color: var(--muted);
+            margin: 7px 0 0;
+        }
+
+        .top-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 42px;
+            padding: 10px 15px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            background: var(--primary);
+            color: white;
+            font-weight: 650;
+            transition: .2s;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-light {
+            background: white;
+            color: var(--text);
+            border-color: var(--border);
+        }
+
+        .btn-light:hover:not(:disabled) {
+            background: #f1f3fc;
+            color: var(--primary-dark);
+        }
+
+        .btn-danger { background: var(--danger); }
+        .btn-danger:hover:not(:disabled) { background: #a82b36; }
+
+        .btn-small {
+            min-height: 34px;
+            padding: 7px 10px;
+            font-size: 12px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 17px;
+            margin-bottom: 27px;
+        }
+
+        .stat-card {
+            min-width: 0;
+            padding: 22px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 5px 20px rgba(30, 45, 90, .035);
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-label {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: #edf0ff;
+            color: var(--primary);
+            font-size: 19px;
+        }
+
+        .stat-value {
+            display: block;
+            margin-top: 17px;
+            font-size: 31px;
+            line-height: 1.2;
+            letter-spacing: -.7px;
+        }
+
+        .stat-note {
+            margin: 8px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .panel {
+            min-width: 0;
+            margin-bottom: 24px;
+            padding: 25px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 5px 20px rgba(30, 45, 90, .035);
+        }
+
+        .panel-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 21px;
+        }
+
+        .panel-heading h3 {
+            margin: 0;
+            font-size: 19px;
+        }
+
+        .panel-heading p {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 11px;
+            border-radius: 20px;
+            background: #edf8f0;
+            color: var(--success);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .status::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .status.error {
+            background: #fff0f0;
+            color: var(--danger);
+        }
+
+        .status.loading {
+            background: #eef2ff;
+            color: var(--primary);
+        }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns: minmax(220px, 2fr) repeat(2, minmax(140px, 1fr)) auto;
+            gap: 11px;
+            margin-bottom: 17px;
+        }
+
+        .field-control {
+            width: 100%;
+            min-width: 0;
+            min-height: 43px;
+            padding: 10px 12px;
+            border: 1px solid #dce1ed;
+            border-radius: 9px;
+            outline: none;
+            background: white;
+            color: var(--text);
+        }
+
+        .field-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(64, 85, 200, .12);
+        }
+
+        .table-meta {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 12px 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        table {
+            width: 100%;
+            min-width: 1000px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 14px 15px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f7f8fc;
+            color: #626d87;
+            font-size: 11px;
+            letter-spacing: .65px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        tbody tr:hover { background: #f8f9ff; }
+        tbody tr:last-child td { border-bottom: none; }
+
+        .student-name {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .student-email {
+            color: var(--muted);
+            overflow-wrap: anywhere;
+        }
+
+        .id-badge {
+            display: inline-block;
+            padding: 5px 8px;
+            background: #f0f2fa;
+            border-radius: 7px;
+            color: #4d5a7c;
+            font-weight: 700;
+        }
+
+        .actions {
+            display: flex;
+            gap: 7px;
+            flex-wrap: nowrap;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .page-buttons {
+            display: flex;
+            gap: 7px;
+        }
+
+        .page-buttons .btn {
+            min-width: 40px;
+        }
+
+        .form-panel {
+            margin: 20px 0;
+            padding: 23px;
+            background: #f8f9ff;
+            border: 1px solid #e1e6f4;
+            border-radius: 13px;
+        }
+
+        .form-panel h4 {
+            margin: 0 0 5px;
+            font-size: 17px;
+        }
+
+        .form-description {
+            margin: 0 0 20px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 17px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 20px;
+        }
+
+        .message {
+            min-height: 20px;
+            margin: 12px 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .message.success { color: var(--success); }
+        .message.error { color: var(--danger); }
+
+        .empty-state {
+            padding: 35px 15px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .empty-state strong {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text);
+            font-size: 15px;
+        }
+
+        .hidden { display: none !important; }
+
+        .mobile-brand { display: none; }
+
+        @media (max-width: 1150px) {
+            .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+            .toolbar {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 760px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                padding: 13px 16px;
+            }
+
+            .brand { padding: 0 4px 14px; }
+
+            .sidebar nav {
+                display: flex;
+                overflow-x: auto;
+                gap: 6px;
+            }
+
+            .nav-label { display: none; }
+
+            .nav-button {
+                width: auto;
+                min-width: max-content;
+                margin: 0;
+                padding: 10px 12px;
+            }
+
+            .sidebar-bottom {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
+                padding-top: 12px;
+                margin-top: 12px;
+            }
+
+            .admin-mini { margin: 0; padding: 0; }
+            .sidebar .logout { width: auto; padding: 10px 14px; }
+
+            .main { margin-left: 0; padding: 21px 14px 35px; }
+
+            .topbar { align-items: flex-start; flex-direction: column; }
+
+            .panel { padding: 18px; }
+
+            .stats { gap: 11px; }
+
+            .stat-card { padding: 16px; }
+
+            .stat-value { font-size: 27px; }
+
+            .toolbar { grid-template-columns: 1fr; }
+
+            .form-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 420px) {
+            .stats { grid-template-columns: 1fr; }
+
+            .top-actions { width: 100%; }
+
+            .top-actions .btn { flex: 1; }
+        }
+    </style>
+</head>
+
+<body>
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">S</div>
+            <h1>Student<span>Hub</span></h1>
+        </div>
+
+        <nav aria-label="Admin navigation">
+            <div class="nav-label">Workspace</div>
+
+            <button type="button" class="nav-button active" data-view="overview">
+                <span class="nav-icon">▦</span> Overview
+            </button>
+
+            <button type="button" class="nav-button" data-view="students">
+                <span class="nav-icon">♙</span> Students
+            </button>
+
+            <button type="button" class="nav-button" data-view="reports">
+                <span class="nav-icon">▤</span> Reports
+            </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="admin-mini">
+                <div class="avatar" id="adminAvatar">A</div>
+                <div>
+                    <strong id="adminName">Administrator</strong>
+                    <small>Administrator</small>
+                </div>
+            </div>
+
+            <button type="button" class="logout" id="logoutButton">
+                ↪ Logout
+            </button>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow" id="pageEyebrow">ADMINISTRATION</p>
+                <h2 id="pageTitle">Dashboard Overview</h2>
+                <p id="welcomeMessage">Welcome to StudentHub.</p>
+            </div>
+
+            <div class="top-actions">
+                <button type="button" class="btn btn-light" id="refreshButton">
+                    ↻ Refresh
+                </button>
+                <button type="button" class="btn" id="headerAddButton">
+                    + Add Student
+                </button>
+            </div>
+        </header>
+
+        <div id="globalMessage" class="message" role="status"
+             aria-live="polite"></div>
+
+        <!-- OVERVIEW -->
+        <section id="overviewView">
+            <div class="stats">
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <p class="stat-label">Total Students</p>
+                        <span class="stat-icon">♙</span>
+                    </div>
+                    <strong class="stat-value" id="totalStudents">—</strong>
+                    <p class="stat-note">All loaded student records</p>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <p class="stat-label">Departments</p>
+                        <span class="stat-icon">▦</span>
+                    </div>
+                    <strong class="stat-value" id="totalDepartments">—</strong>
+                    <p class="stat-note">Distinct departments represented</p>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <p class="stat-label">Courses</p>
+                        <span class="stat-icon">▤</span>
+                    </div>
+                    <strong class="stat-value" id="totalCourses">—</strong>
+                    <p class="stat-note">Distinct courses represented</p>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <p class="stat-label">Average Age</p>
+                        <span class="stat-icon">◷</span>
+                    </div>
+                    <strong class="stat-value" id="averageAge">—</strong>
+                    <p class="stat-note">Calculated from available ages</p>
+                </article>
+            </div>
+
+            <section class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Recent Student Records</h3>
+                        <p>The latest records in the currently loaded list.</p>
+                    </div>
+                    <button type="button" class="btn btn-light"
+                            id="viewAllButton">View All Students →</button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Student</th>
+                            <th>Course</th>
+                            <th>Department</th>
+                            <th>Age</th>
+                        </tr>
+                        </thead>
+                        <tbody id="recentTableBody"></tbody>
+                    </table>
+                </div>
+
+                <p id="recentEmpty" class="message hidden">No student records available.</p>
+            </section>
+
+            <section class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Department Summary</h3>
+                        <p>Student distribution by department.</p>
+                    </div>
+                </div>
+                <div id="departmentSummary"></div>
+            </section>
+        </section>
+
+        <!-- STUDENT MANAGEMENT -->
+        <section id="studentsView" class="hidden">
+            <section class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Student Management</h3>
+                        <p>Search, filter, add, edit, export, and delete student records.</p>
+                    </div>
+                    <span class="status loading" id="connectionStatus">Connecting</span>
+                </div>
+
+                <div class="toolbar">
+                    <input type="search" class="field-control" id="searchInput"
+                           placeholder="Search name, ID, email, phone..."
+                           aria-label="Search students">
+
+                    <select class="field-control" id="departmentFilter"
+                            aria-label="Filter by department">
+                        <option value="">All Departments</option>
+                    </select>
+
+                    <select class="field-control" id="courseFilter"
+                            aria-label="Filter by course">
+                        <option value="">All Courses</option>
+                    </select>
+
+                    <button type="button" class="btn btn-light" id="clearFiltersButton">
+                        Clear Filters
+                    </button>
+                </div>
+
+                <div class="toolbar">
+                    <select class="field-control" id="sortSelect"
+                            aria-label="Sort students">
+                        <option value="id-desc">Newest ID first</option>
+                        <option value="id-asc">Oldest ID first</option>
+                        <option value="name-asc">Name A–Z</option>
+                        <option value="name-desc">Name Z–A</option>
+                        <option value="age-asc">Age: low to high</option>
+                        <option value="age-desc">Age: high to low</option>
+                    </select>
+
+                    <select class="field-control" id="pageSize"
+                            aria-label="Records per page">
+                        <option value="10">10 per page</option>
+                        <option value="25">25 per page</option>
+                        <option value="50">50 per page</option>
+                        <option value="100">100 per page</option>
+                    </select>
+
+                    <button type="button" class="btn btn-light" id="exportButton">
+                        ↓ Export CSV
+                    </button>
+
+                    <button type="button" class="btn" id="tableAddButton">
+                        + Add Student
+                    </button>
+                </div>
+
+                <div class="table-meta">
+                    <span id="visibleCount">0 records</span>
+                    <span id="tableSummary">Waiting for records...</span>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Student</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Course</th>
+                            <th>Department</th>
+                            <th>Age</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="studentTableBody"></tbody>
+                    </table>
+                </div>
+
+                <div id="tableEmpty" class="empty-state hidden">
+                    <strong id="emptyTitle">No students found</strong>
+                    <span id="emptyDescription">Try changing your search or filters.</span>
+                </div>
+
+                <div class="pagination">
+                    <span id="paginationInfo">Page 1</span>
+                    <div class="page-buttons">
+                        <button type="button" class="btn btn-light"
+                                id="previousPage">← Previous</button>
+                        <button type="button" class="btn btn-light"
+                                id="nextPage">Next →</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ADD FORM -->
+            <form id="addForm" class="form-panel hidden">
+                <h4>Add New Student</h4>
+                <p class="form-description">
+                    Student account invitation behavior is handled by your existing backend.
+                </p>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="addName">Full Name</label>
+                        <input class="field-control" id="addName"
+                               maxlength="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addEmail">Email Address</label>
+                        <input class="field-control" id="addEmail"
+                               type="email" maxlength="150" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addPhone">Phone (10 digits)</label>
+                        <input class="field-control" id="addPhone"
+                               type="tel" pattern="[0-9]{10}"
+                               maxlength="10" inputmode="numeric" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addCourse">Course</label>
+                        <input class="field-control" id="addCourse"
+                               maxlength="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addDepartment">Department</label>
+                        <input class="field-control" id="addDepartment"
+                               maxlength="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addAge">Age</label>
+                        <input class="field-control" id="addAge"
+                               type="number" min="1" max="120" required>
+                    </div>
+                </div>
+
+                <p id="addMessage" class="message" role="alert"></p>
+
+                <div class="form-actions">
+                    <button type="submit" id="saveAddButton" class="btn">
+                        Save Student
+                    </button>
+                    <button type="button" id="cancelAddButton"
+                            class="btn btn-light">Cancel</button>
+                </div>
+            </form>
+
+            <!-- EDIT FORM -->
+            <form id="editForm" class="form-panel hidden">
+                <h4>Edit Student</h4>
+                <p class="form-description">
+                    Update the student's existing record.
+                </p>
+
+                <input type="hidden" id="editId">
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="editName">Full Name</label>
+                        <input class="field-control" id="editName"
+                               maxlength="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editEmail">Email Address</label>
+                        <input class="field-control" id="editEmail"
+                               type="email" maxlength="150" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editPhone">Phone (10 digits)</label>
+                        <input class="field-control" id="editPhone"
+                               type="tel" pattern="[0-9]{10}"
+                               maxlength="10" inputmode="numeric" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editCourse">Course</label>
+                        <input class="field-control" id="editCourse"
+                               maxlength="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editDepartment">Department</label>
+                        <input class="field-control" id="editDepartment"
+                               maxlength="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editAge">Age</label>
+                        <input class="field-control" id="editAge"
+                               type="number" min="1" max="120" required>
+                    </div>
+                </div>
+
+                <p id="editMessage" class="message" role="alert"></p>
+
+                <div class="form-actions">
+                    <button type="submit" id="saveEditButton" class="btn">
+                        Save Changes
+                    </button>
+                    <button type="button" id="cancelEditButton"
+                            class="btn btn-light">Cancel</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- REPORTS -->
+        <section id="reportsView" class="hidden">
+            <section class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Student Reports</h3>
+                        <p>Summary calculated from the student records returned by the API.</p>
+                    </div>
+                    <button type="button" class="btn" id="reportExportButton">
+                        ↓ Export All Students
+                    </button>
+                </div>
+
+                <div class="stats">
+                    <article class="stat-card">
+                        <p class="stat-label">Students</p>
+                        <strong class="stat-value" id="reportTotal">0</strong>
+                    </article>
+                    <article class="stat-card">
+                        <p class="stat-label">Departments</p>
+                        <strong class="stat-value" id="reportDepartments">0</strong>
+                    </article>
+                    <article class="stat-card">
+                        <p class="stat-label">Courses</p>
+                        <strong class="stat-value" id="reportCourses">0</strong>
+                    </article>
+                    <article class="stat-card">
+                        <p class="stat-label">Average Age</p>
+                        <strong class="stat-value" id="reportAge">—</strong>
+                    </article>
+                </div>
+
+                <h3>Students by Department</h3>
+                <div id="reportDepartmentSummary"></div>
+
+                <p class="message">
+                    These reports use the records currently returned by the student API.
+                    They do not represent email delivery status or account activity.
+                </p>
+            </section>
+        </section>
+    </main>
+</div>
+
+<script src="../js/api.js"></script>
+<script>
+"use strict";
+
+/* AUTHENTICATION */
+const userText = sessionStorage.getItem("loggedInUser");
+let currentUser = null;
+
+try {
+    currentUser = userText ? JSON.parse(userText) : null;
+} catch (error) {
+    currentUser = null;
+}
+
+if (!currentUser || currentUser.role !== "ADMIN") {
+    sessionStorage.removeItem("loggedInUser");
+    sessionStorage.removeItem("apiCredentials");
+    window.location.replace("../index.html");
+}
+
+/* STATE */
+let allStudents = [];
+let busy = false;
+let currentPage = 1;
+
+const $ = id => document.getElementById(id);
+
+const tableBody = $("studentTableBody");
+const addForm = $("addForm");
+const editForm = $("editForm");
+const pageMessage = $("globalMessage");
+
+const escapeCSV = value => {
+    const text = value == null ? "" : String(value);
+    return '"' + text.replace(/"/g, '""') + '"';
+};
+
+function showMessage(element, message, type = "") {
+    element.textContent = message;
+    element.className = "message" + (type ? " " + type : "");
+}
+
+function uniqueValues(field) {
+    return [...new Set(
+        allStudents
+            .map(student => String(student[field] ?? "").trim())
+            .filter(Boolean)
+    )].sort((a, b) => a.localeCompare(b));
+}
+
+function setConnectionStatus(text, state = "loading") {
+    const element = $("connectionStatus");
+    element.textContent = text;
+    element.className = "status " + state;
+}
+
+function setBusy(value) {
+    busy = value;
+
+    [
+        "refreshButton", "headerAddButton", "tableAddButton",
+        "saveAddButton", "saveEditButton", "exportButton",
+        "reportExportButton"
+    ].forEach(id => {
+        const element = $(id);
+        if (element) element.disabled = value;
+    });
+}
+
+/* NAVIGATION */
+function showView(view) {
+    const views = {
+        overview: $("overviewView"),
+        students: $("studentsView"),
+        reports: $("reportsView")
+    };
+
+    Object.entries(views).forEach(([name, element]) => {
+        element.classList.toggle("hidden", name !== view);
+    });
+
+    document.querySelectorAll(".nav-button").forEach(button => {
+        button.classList.toggle("active", button.dataset.view === view);
+    });
+
+    const headings = {
+        overview: ["ADMINISTRATION", "Dashboard Overview"],
+        students: ["RECORD MANAGEMENT", "Student Management"],
+        reports: ["ANALYTICS", "Student Reports"]
+    };
+
+    $("pageEyebrow").textContent = headings[view][0];
+    $("pageTitle").textContent = headings[view][1];
+
+    if (view === "students") renderStudents();
+}
+
+document.querySelectorAll(".nav-button").forEach(button => {
+    button.addEventListener("click", () => showView(button.dataset.view));
+});
+
+$("viewAllButton").addEventListener("click", () => showView("students"));
+
+/* OVERVIEW */
+function updateStatistics() {
+    const departments = uniqueValues("department");
+    const courses = uniqueValues("course");
+
+    const ages = allStudents
+        .map(student => Number(student.age))
+        .filter(age => Number.isFinite(age) && age > 0);
+
+    const average = ages.length
+        ? (ages.reduce((sum, age) => sum + age, 0) / ages.length).toFixed(1)
+        : "—";
+
+    $("totalStudents").textContent = allStudents.length;
+    $("totalDepartments").textContent = departments.length;
+    $("totalCourses").textContent = courses.length;
+    $("averageAge").textContent = average;
+
+    $("reportTotal").textContent = allStudents.length;
+    $("reportDepartments").textContent = departments.length;
+    $("reportCourses").textContent = courses.length;
+    $("reportAge").textContent = average;
+
+    renderDepartmentSummary($("departmentSummary"));
+    renderDepartmentSummary($("reportDepartmentSummary"));
+    renderRecentStudents();
+}
+
+function renderDepartmentSummary(container) {
+    container.replaceChildren();
+
+    const counts = {};
+
+    allStudents.forEach(student => {
+        const department = String(student.department || "Unspecified").trim();
+        counts[department] = (counts[department] || 0) + 1;
+    });
+
+    const entries = Object.entries(counts)
+        .sort((a, b) => b[1] - a[1]);
+
+    if (!entries.length) {
+        const message = document.createElement("p");
+        message.className = "message";
+        message.textContent = "No department data available.";
+        container.appendChild(message);
+        return;
+    }
+
+    entries.forEach(([department, count]) => {
+        const row = document.createElement("div");
+        row.style.margin = "17px 0";
+
+        const label = document.createElement("div");
+        label.style.display = "flex";
+        label.style.justifyContent = "space-between";
+        label.style.gap = "12px";
+        label.style.marginBottom = "8px";
+        label.style.fontSize = "13px";
+
+        const name = document.createElement("strong");
+        name.textContent = department;
+
+        const number = document.createElement("span");
+        number.textContent = count + (count === 1 ? " student" : " students");
+
+        label.append(name, number);
+
+        const track = document.createElement("div");
+        track.style.height = "8px";
+        track.style.borderRadius = "10px";
+        track.style.overflow = "hidden";
+        track.style.background = "#edf0f8";
+
+        const fill = document.createElement("div");
+        fill.style.height = "100%";
+        fill.style.width = (count / allStudents.length * 100) + "%";
+        fill.style.background = "#4055c8";
+        fill.style.borderRadius = "10px";
+
+        track.appendChild(fill);
+        row.append(label, track);
+        container.appendChild(row);
+    });
+}
+
+function renderRecentStudents() {
+    const body = $("recentTableBody");
+    body.replaceChildren();
+
+    const recent = [...allStudents]
+        .sort((a, b) => Number(b.id || 0) - Number(a.id || 0))
+        .slice(0, 5);
+
+    $("recentEmpty").classList.toggle("hidden", recent.length > 0);
+
+    recent.forEach(student => {
+        const row = document.createElement("tr");
+
+        [
+            student.id,
+            student.name,
+            student.course,
+            student.department,
+            student.age
+        ].forEach((value, index) => {
+            const cell = document.createElement("td");
+            cell.textContent = value ?? "—";
+
+            if (index === 0) {
+                const badge = document.createElement("span");
+                badge.className = "id-badge";
+                badge.textContent = value ?? "—";
+                cell.replaceChildren(badge);
+            }
+
+            if (index === 1) {
+                cell.className = "student-name";
+            }
+
+            row.appendChild(cell);
+        });
+
+        body.appendChild(row);
+    });
+}
+
+/* FILTERS */
+function populateSelect(select, values, label) {
+    const selected = select.value;
+    select.replaceChildren();
+
+    const first = document.createElement("option");
+    first.value = "";
+    first.textContent = label;
+    select.appendChild(first);
+
+    values.forEach(value => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+    });
+
+    if (values.includes(selected)) select.value = selected;
+}
+
+function refreshFilters() {
+    populateSelect($("departmentFilter"), uniqueValues("department"), "All Departments");
+    populateSelect($("courseFilter"), uniqueValues("course"), "All Courses");
+}
+
+function getFilteredStudents() {
+    const query = $("searchInput").value.trim().toLowerCase();
+    const department = $("departmentFilter").value;
+    const course = $("courseFilter").value;
+    const sort = $("sortSelect").value;
+
+    const filtered = allStudents.filter(student => {
+        const searchable = [
+            student.id, student.name, student.email,
+            student.phone, student.course,
+            student.department, student.age
+        ].join(" ").toLowerCase();
+
+        return searchable.includes(query)
+            && (!department || String(student.department ?? "").trim() === department)
+            && (!course || String(student.course ?? "").trim() === course);
+    });
+
+    const comparators = {
+        "id-asc": (a, b) => Number(a.id || 0) - Number(b.id || 0),
+        "id-desc": (a, b) => Number(b.id || 0) - Number(a.id || 0),
+        "name-asc": (a, b) => String(a.name || "").localeCompare(String(b.name || "")),
+        "name-desc": (a, b) => String(b.name || "").localeCompare(String(a.name || "")),
+        "age-asc": (a, b) => Number(a.age || 0) - Number(b.age || 0),
+        "age-desc": (a, b) => Number(b.age || 0) - Number(a.age || 0)
+    };
+
+    filtered.sort(comparators[sort] || comparators["id-desc"]);
+    return filtered;
+}
+
+/* STUDENT TABLE */
+function makeCell(value, className = "") {
+    const cell = document.createElement("td");
+    cell.textContent = value == null || value === "" ? "—" : String(value);
+    if (className) cell.className = className;
+    return cell;
+}
+
+function makeButton(label, className, action) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "btn btn-small " + className;
+    button.textContent = label;
+    button.addEventListener("click", action);
+    return button;
+}
+
+function renderStudents() {
+    const filtered = getFilteredStudents();
+    const pageSize = Number($("pageSize").value) || 10;
+    const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+
+    currentPage = Math.min(currentPage, totalPages);
+    currentPage = Math.max(currentPage, 1);
+
+    const start = (currentPage - 1) * pageSize;
+    const pageStudents = filtered.slice(start, start + pageSize);
+
+    tableBody.replaceChildren();
+
+    $("visibleCount").textContent =
+        filtered.length + (filtered.length === 1 ? " student" : " students");
+
+    $("tableSummary").textContent =
+        "Showing " + (filtered.length ? start + 1 : 0) + "–"
+        + Math.min(start + pageSize, filtered.length)
+        + " of " + filtered.length;
+
+    $("paginationInfo").textContent =
+        "Page " + currentPage + " of " + totalPages;
+
+    $("previousPage").disabled = currentPage <= 1;
+    $("nextPage").disabled = currentPage >= totalPages;
+
+    $("tableEmpty").classList.toggle("hidden", pageStudents.length > 0);
+
+    if (!filtered.length) {
+        $("emptyTitle").textContent = allStudents.length
+            ? "No matching students"
+            : "No students available";
+
+        $("emptyDescription").textContent = allStudents.length
+            ? "Try changing your search or filters."
+            : "Use Add Student to create the first record.";
+    }
+
+    pageStudents.forEach(student => {
+        const row = document.createElement("tr");
+
+        row.appendChild(makeCell(student.id, "id-badge"));
+        row.appendChild(makeCell(student.name, "student-name"));
+        row.appendChild(makeCell(student.email, "student-email"));
+        row.appendChild(makeCell(student.phone));
+        row.appendChild(makeCell(student.course));
+        row.appendChild(makeCell(student.department));
+        row.appendChild(makeCell(student.age));
+
+        const actionCell = document.createElement("td");
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        actions.appendChild(makeButton("Edit", "btn-light", () => openEditForm(student)));
+
+        actions.appendChild(makeButton("Delete", "btn-danger", () => removeStudent(student)));
+
+        actionCell.appendChild(actions);
+        row.appendChild(actionCell);
+        tableBody.appendChild(row);
+    });
+}
+
+/* LOAD DATA */
+async function loadStudents() {
+    if (busy) return;
+
+    setBusy(true);
+    setConnectionStatus("Loading records", "loading");
+    showMessage(pageMessage, "Loading student records...");
+
+    try {
+        const data = await getAllStudents();
+
+        if (!Array.isArray(data)) {
+            throw new Error("The student API did not return a list.");
+        }
+
+        allStudents = data;
+        refreshFilters();
+        updateStatistics();
+        renderStudents();
+
+        setConnectionStatus("Connected", "");
+        showMessage(pageMessage, "Student records loaded successfully.", "success");
+    } catch (error) {
+        setConnectionStatus("Connection error", "error");
+        showMessage(pageMessage, error.message || "Unable to load students.", "error");
+    } finally {
+        setBusy(false);
+    }
+}
+
+/* FORM CONTROLS */
+function openAddForm() {
+    editForm.classList.add("hidden");
+    addForm.classList.remove("hidden");
+    addForm.reset();
+    showMessage($("addMessage"), "");
+    showView("students");
+    addForm.scrollIntoView({ behavior: "smooth", block: "start" });
+    $("addName").focus();
+}
+
+function closeAddForm() {
+    addForm.classList.add("hidden");
+    addForm.reset();
+    showMessage($("addMessage"), "");
+}
+
+function openEditForm(student) {
+    closeAddForm();
+    showView("students");
+    editForm.classList.remove("hidden");
+
+    $("editId").value = student.id;
+    $("editName").value = student.name ?? "";
+    $("editEmail").value = student.email ?? "";
+    $("editPhone").value = student.phone ?? "";
+    $("editCourse").value = student.course ?? "";
+    $("editDepartment").value = student.department ?? "";
+    $("editAge").value = student.age ?? "";
+
+    showMessage($("editMessage"), "");
+    editForm.scrollIntoView({ behavior: "smooth", block: "start" });
+    $("editName").focus();
+}
+
+function closeEditForm() {
+    editForm.classList.add("hidden");
+    editForm.reset();
+    showMessage($("editMessage"), "");
+}
+
+$("headerAddButton").addEventListener("click", openAddForm);
+$("tableAddButton").addEventListener("click", openAddForm);
+
+$("cancelAddButton").addEventListener("click", closeAddForm);
+$("cancelEditButton").addEventListener("click", closeEditForm);
+
+/* ADD STUDENT */
+addForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    if (busy) return;
+
+    const student = {
+        name: $("addName").value.trim(),
+        email: $("addEmail").value.trim(),
+        phone: $("addPhone").value.trim(),
+        course: $("addCourse").value.trim(),
+        department: $("addDepartment").value.trim(),
+        age: Number($("addAge").value)
+    };
+
+    if (!student.name || !student.email || !student.phone
+        || !student.course || !student.department
+        || !Number.isInteger(student.age) || student.age < 1 || student.age > 120) {
+        showMessage($("addMessage"), "Please check all student details.", "error");
+        return;
+    }
+
+    setBusy(true);
+    $("saveAddButton").textContent = "Saving...";
+    showMessage($("addMessage"), "Saving student record...");
+
+    try {
+        await addStudent(student);
+
+        closeAddForm();
+        showMessage(pageMessage,
+            "Student added successfully. Check the invitation workflow if configured.",
+            "success");
+
+        await reloadAfterMutation();
+    } catch (error) {
+        showMessage($("addMessage"), error.message || "Unable to add student.", "error");
+    } finally {
+        $("saveAddButton").textContent = "Save Student";
+        setBusy(false);
+    }
+});
+
+/* UPDATE STUDENT */
+editForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    if (busy) return;
+
+    const studentId = Number($("editId").value);
+
+    const student = {
+        name: $("editName").value.trim(),
+        email: $("editEmail").value.trim(),
+        phone: $("editPhone").value.trim(),
+        course: $("editCourse").value.trim(),
+        department: $("editDepartment").value.trim(),
+        age: Number($("editAge").value)
+    };
+
+    if (!student.name || !student.email || !student.phone
+        || !student.course || !student.department
+        || !Number.isInteger(student.age) || student.age < 1 || student.age > 120) {
+        showMessage($("editMessage"), "Please check all student details.", "error");
+        return;
+    }
+
+    setBusy(true);
+    $("saveEditButton").textContent = "Updating...";
+    showMessage($("editMessage"), "Updating student record...");
+
+    try {
+        await updateStudent(studentId, student);
+
+        closeEditForm();
+        showMessage(pageMessage, "Student updated successfully.", "success");
+        await reloadAfterMutation();
+    } catch (error) {
+        showMessage($("editMessage"), error.message || "Unable to update student.", "error");
+    } finally {
+        $("saveEditButton").textContent = "Save Changes";
+        setBusy(false);
+    }
+});
+
+/* DELETE STUDENT */
+async function removeStudent(student) {
+    if (busy) return;
+
+    const confirmed = window.confirm(
+        "Delete " + student.name + " (ID: " + student.id + ")?\n\n"
+        + "This action cannot be undone."
+    );
+
+    if (!confirmed) return;
+
+    setBusy(true);
+    showMessage(pageMessage, "Deleting student...");
+
+    try {
+        await deleteStudent(student.id);
+        showMessage(pageMessage, "Student deleted successfully.", "success");
+        await reloadAfterMutation();
+    } catch (error) {
+        showMessage(pageMessage, error.message || "Unable to delete student.", "error");
+    } finally {
+        setBusy(false);
+    }
+}
+
+/* REFRESH AFTER CREATE / UPDATE / DELETE */
+async function reloadAfterMutation() {
+    const data = await getAllStudents();
+
+    if (!Array.isArray(data)) {
+        throw new Error("The student API did not return a list.");
+    }
+
+    allStudents = data;
+    refreshFilters();
+    updateStatistics();
+    renderStudents();
+}
+
+/* SEARCH, FILTERS, SORTING, PAGINATION */
+function resetPageAndRender() {
+    currentPage = 1;
+    renderStudents();
+}
+
+$("searchInput").addEventListener("input", resetPageAndRender);
+$("departmentFilter").addEventListener("change", resetPageAndRender);
+$("courseFilter").addEventListener("change", resetPageAndRender);
+$("sortSelect").addEventListener("change", resetPageAndRender);
+$("pageSize").addEventListener("change", resetPageAndRender);
+
+$("clearFiltersButton").addEventListener("click", () => {
+    $("searchInput").value = "";
+    $("departmentFilter").value = "";
+    $("courseFilter").value = "";
+    $("sortSelect").value = "id-desc";
+    currentPage = 1;
+    renderStudents();
+});
+
+$("previousPage").addEventListener("click", () => {
+    if (currentPage > 1) {
+        currentPage--;
+        renderStudents();
+    }
+});
+
+$("nextPage").addEventListener("click", () => {
+    const totalPages = Math.max(
+        1,
+        Math.ceil(getFilteredStudents().length / Number($("pageSize").value))
+    );
+
+    if (currentPage < totalPages) {
+        currentPage++;
+        renderStudents();
+    }
+});
+
+/* CSV EXPORT */
+function exportStudents(students) {
+    if (!students.length) {
+        showMessage(pageMessage, "There are no student records to export.", "error");
+        return;
+    }
+
+    const columns = [
+        ["ID", "id"],
+        ["Name", "name"],
+        ["Email", "email"],
+        ["Phone", "phone"],
+        ["Course", "course"],
+        ["Department", "department"],
+        ["Age", "age"]
+    ];
+
+    const rows = [
+        columns.map(column => escapeCSV(column[0])).join(","),
+        ...students.map(student =>
+            columns.map(column => escapeCSV(student[column[1]])).join(",")
+        )
+    ];
+
+    const blob = new Blob(["\uFEFF" + rows.join("\r\n")], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "studenthub-students-" +
+        new Date().toISOString().slice(0, 10) + ".csv";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+
+    showMessage(pageMessage, "CSV export started.", "success");
+}
+
+$("exportButton").addEventListener("click", () => {
+    exportStudents(getFilteredStudents());
+});
+
+$("reportExportButton").addEventListener("click", () => {
+    exportStudents(allStudents);
+});
+
+/* REFRESH AND LOGOUT */
+$("refreshButton").addEventListener("click", loadStudents);
+
+$("logoutButton").addEventListener("click", () => {
+    sessionStorage.removeItem("loggedInUser");
+    sessionStorage.removeItem("apiCredentials");
+    window.location.replace("../index.html");
+});
+
+/* INITIALIZE */
+if (currentUser && currentUser.role === "ADMIN") {
+    $("welcomeMessage").textContent =
+        "Welcome back, " + (currentUser.name || "Administrator") +
+        ". Manage your student records from one place.";
+
+    $("adminName").textContent = currentUser.name || "Administrator";
+    $("adminAvatar").textContent =
+        (currentUser.name || "A").trim().charAt(0).toUpperCase();
+
+    showView("overview");
+    loadStudents();
+}
+</script>
+</body>
+</html>
